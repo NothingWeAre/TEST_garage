@@ -1,17 +1,26 @@
 <?php
 include "lib/loader.php";
 
-use Exceptions\IncorrectFuelTypeException;
+use Vehicles\BoatVehicle;
 use Vehicles\CarVehicle;
+use Vehicles\HelicopterVehicle;
+use Vehicles\TruckVehicle;
+use Vehicles\VehicleTypeInterface\AerialInterface;
 
 $garage = new Garage();
 
-$garage->addVehicle(new CarVehicle('BMW'));
+//populate garage
+$garage
+    ->addVehicle(new CarVehicle('BMW'))
+    ->addVehicle(new HelicopterVehicle('helicopter 1'))
+    ->addVehicle(new BoatVehicle('Boat 1'))
+    ->addVehicle(new TruckVehicle('Caterpilar 1'))
+;
 
+//try riding each vehicle
 foreach($garage->getVehicles() as $vehicle){
-    try{
-        $vehicle->refuel('');
-    }catch(IncorrectFuelTypeException $exception){
-        $exception->getMessage();
+    $vehicle->refuel($vehicle->getAcceptedFuelType());
+    if($vehicle instanceof AerialInterface){
+        $vehicle->fly();
     }
 }
