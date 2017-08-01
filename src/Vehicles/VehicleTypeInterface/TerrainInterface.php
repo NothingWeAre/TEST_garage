@@ -11,5 +11,7 @@ namespace Vehicles\VehicleTypeInterface;
 
 interface TerrainInterface
 {
-    function drive();
+    function drive(): string;
+
+    function stop(): string;
 }

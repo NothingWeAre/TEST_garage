@@ -9,6 +9,8 @@ class CarVehicle extends AbstractVehicle implements TerrainInterface
 {
     const FUEL_TYPE = 'gasoline';
 
+    private $inMove = false;
+
     protected function checkFuel(string $fuel): bool
     {
         return $fuel === self::FUEL_TYPE;
@@ -25,6 +27,15 @@ class CarVehicle extends AbstractVehicle implements TerrainInterface
             throw new NoFuelException();
         }
 
-        return 'Drive movements successful';
+        $this->inMove = true;
+
+        return 'Drive action successful';
+    }
+
+    function stop(): string
+    {
+        $this->inMove = false;
+
+        return 'Stop action successful';
     }
 }

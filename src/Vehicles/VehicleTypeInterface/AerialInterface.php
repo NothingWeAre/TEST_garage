@@ -11,7 +11,9 @@ namespace Vehicles\VehicleTypeInterface;
 
 interface AerialInterface
 {
-    function takeOff();
-    function fly();
-    function land();
+    function takeOff(): string;
+
+    function fly(): string;
+
+    function land(): string;
 }

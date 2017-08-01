@@ -35,7 +35,7 @@ class HelicopterVehicle extends AbstractVehicle implements AerialInterface
 
         $this->useFuel();
 
-        return 'Fly movements successful';
+        return 'Fly action successful';
     }
 
     function takeOff(): string
@@ -48,7 +48,7 @@ class HelicopterVehicle extends AbstractVehicle implements AerialInterface
             throw new AlreadyInFlightException();
         }
 
-        return 'Take-off successful';
+        return 'Take-off action successful';
     }
 
     function land(): string
@@ -56,7 +56,7 @@ class HelicopterVehicle extends AbstractVehicle implements AerialInterface
         if(!$this->inFlight){
             throw new NotInFlightException();
         }
-        return 'Landing successful';
+        return 'Land action successful';
     }
 
     public function isInFlight(): bool

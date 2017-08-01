@@ -11,5 +11,7 @@ namespace Vehicles\VehicleTypeInterface;
 
 interface AquaticInterface
 {
-    function swim();
+    function swim(): string;
+
+    function stop(): string;
 }

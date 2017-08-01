@@ -14,7 +14,7 @@ class TruckVehicle extends CarVehicle
 
     public function unload(): string
     {
-        return 'Cargo unloaded';
+        return 'Cargo unload action successful';
     }
 
 

@@ -9,6 +9,8 @@ class BoatVehicle extends AbstractVehicle implements AquaticInterface
 {
     const FUEL_TYPE = 'diesel';
 
+    private $inMove = false;
+
     protected function checkFuel(string $fuel): bool
     {
         return $fuel === self::FUEL_TYPE;
@@ -25,6 +27,13 @@ class BoatVehicle extends AbstractVehicle implements AquaticInterface
             throw new NoFuelException();
         }
 
-        return 'Swim movements successful';
+        return 'Swim action successful';
+    }
+
+    function stop(): string
+    {
+        $this->inMove = false;
+
+        return 'Stop action successful';
     }
 }
