@@ -1,5 +1,5 @@
 <?php
-const base_dir = 'src';
+const BASE_DIR = 'src';
 spl_autoload_register(function ($class_name){
-    include base_dir.DIRECTORY_SEPARATOR.$class_name.'.php';
+    include BASE_DIR.DIRECTORY_SEPARATOR.str_replace('\\', DIRECTORY_SEPARATOR, $class_name).'.php';
 });
