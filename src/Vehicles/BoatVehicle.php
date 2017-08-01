@@ -1,32 +1,30 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Gideon
- * Date: 31.07.2017
- * Time: 20:58
- */
 
 namespace Vehicles;
 
-
+use Exceptions\NoFuelException;
 use Vehicles\VehicleTypeInterface\AquaticInterface;
 
 class BoatVehicle extends AbstractVehicle implements AquaticInterface
 {
     const FUEL_TYPE = 'diesel';
 
-    protected function checkFuel(string $fuel)
+    protected function checkFuel(string $fuel): bool
     {
         return $fuel === self::FUEL_TYPE;
     }
 
-    public function getAcceptedFuelType()
+    public function getAcceptedFuelType(): string
     {
         return self::FUEL_TYPE;
     }
 
-    function swim()
+    function swim(): string
     {
+        if(!$this->hasFuel()){
+            throw new NoFuelException();
+        }
+
         return 'Swim movements successful';
     }
 }

@@ -12,7 +12,7 @@ class TruckVehicle extends CarVehicle
 {
     const FUEL_TYPE = 'diesel';
 
-    public function unload()
+    public function unload(): string
     {
         return 'Cargo unloaded';
     }

@@ -12,9 +12,10 @@ class Garage
     /**
      * @param AbstractVehicle $vehicle
      *
-     * @return $this
+     * @return Garage
      */
-    public function addVehicle(AbstractVehicle $vehicle){
+    public function addVehicle(AbstractVehicle $vehicle): Garage
+    {
         $this->vehicles[] = $vehicle;
         return $this;
     }
@@ -22,7 +23,8 @@ class Garage
     /**
      * @return AbstractVehicle[]
      */
-    public function getVehicles(){
+    public function getVehicles(): array
+    {
         return $this->vehicles;
     }
 }

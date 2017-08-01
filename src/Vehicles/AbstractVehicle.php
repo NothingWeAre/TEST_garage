@@ -14,7 +14,7 @@ abstract class AbstractVehicle
         $this->name = $name;
     }
 
-    public function refuel(string $fuel)
+    public function refuel(string $fuel): string
     {
         if(!$this->checkFuel($fuel)){
             throw new IncorrectFuelTypeException($this->getAcceptedFuelType(), $fuel);
@@ -25,17 +25,22 @@ abstract class AbstractVehicle
         return 'refueled';
     }
 
-    protected function hasFuel()
+    public function hasFuel(): bool
     {
         return $this->hasFuel;
     }
 
-    public function getName()
+    protected function useFuel()
+    {
+        $this->hasFuel = false;
+    }
+
+    public function getName(): string
     {
         return $this->name;
     }
 
-    abstract protected function checkFuel(string $fuel);
+    abstract protected function checkFuel(string $fuel): bool;
 
-    abstract public function getAcceptedFuelType();
+    abstract public function getAcceptedFuelType(): string;
 }

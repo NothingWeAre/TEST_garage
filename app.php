@@ -19,8 +19,15 @@ $garage
 
 //try riding each vehicle
 foreach($garage->getVehicles() as $vehicle){
-    $vehicle->refuel($vehicle->getAcceptedFuelType());
+    if(!$vehicle->hasFuel()){
+        $vehicle->refuel($vehicle->getAcceptedFuelType());
+    }
+
     if($vehicle instanceof AerialInterface){
+        $vehicle->fly();
+    }
+    if($vehicle instanceof AerialInterface){
+        $vehicle->
         $vehicle->fly();
     }
 }

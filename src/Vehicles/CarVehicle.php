@@ -1,31 +1,30 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Gideon
- * Date: 31.07.2017
- * Time: 20:45
- */
 
 namespace Vehicles;
 
+use Exceptions\NoFuelException;
 use Vehicles\VehicleTypeInterface\TerrainInterface;
 
 class CarVehicle extends AbstractVehicle implements TerrainInterface
 {
     const FUEL_TYPE = 'gasoline';
 
-    protected function checkFuel(string $fuel)
+    protected function checkFuel(string $fuel): bool
     {
         return $fuel === self::FUEL_TYPE;
     }
 
-    public function getAcceptedFuelType()
+    public function getAcceptedFuelType(): string
     {
         return self::FUEL_TYPE;
     }
 
-    public function drive()
+    public function drive(): string
     {
+        if(!$this->hasFuel()){
+            throw new NoFuelException();
+        }
+
         return 'Drive movements successful';
     }
 }
