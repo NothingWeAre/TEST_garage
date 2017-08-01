@@ -28,6 +28,7 @@ class CarVehicle extends AbstractVehicle implements TerrainInterface
         }
 
         $this->inMove = true;
+        $this->useFuel();
 
         return 'Drive action successful';
     }

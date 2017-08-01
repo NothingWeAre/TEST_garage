@@ -27,6 +27,9 @@ class BoatVehicle extends AbstractVehicle implements AquaticInterface
             throw new NoFuelException();
         }
 
+        $this->inMove = true;
+        $this->useFuel();
+
         return 'Swim action successful';
     }
 
