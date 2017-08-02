@@ -7,11 +7,11 @@
  */
 
 use Exceptions\AlreadyInFlightException;
-use Exceptions\IncorrectFuelTypeException;
 use Exceptions\NoFuelException;
 use Exceptions\NotInFlightException;
 use PHPUnit\Framework\TestCase;
 use Vehicles\AbstractVehicle;
+use Vehicles\Parts\FuelTank;
 use Vehicles\SpaceShuttleVehicle;
 use Vehicles\VehicleTypeInterface\AerialInterface;
 use Vehicles\VehicleTypeInterface\RequireFuelInterface;
@@ -28,55 +28,9 @@ class SpaceShuttleVehicleTest extends TestCase
         return $vehicle;
     }
 
-    /**
-     * @depends testInstantiation
-     *
-     * @param RequireFuelInterface $vehicle
-     */
-    public function testIfHasFuelEmpty(RequireFuelInterface $vehicle)
-    {
-        $this->assertEquals(
-            false,
-            $vehicle->getFuelTank()->hasFuel()
-        );
-    }
 
     /**
      * @depends testInstantiation
-     *
-     * @param RequireFuelInterface $vehicle
-     */
-    public function testRefuelWithIncorrectFuel(RequireFuelInterface $vehicle)
-    {
-        $this->expectException(IncorrectFuelTypeException::class);
-        $vehicle->getFuelTank()->refuel('not fuel');
-    }
-
-
-    /**
-     * @depends testInstantiation
-     *
-     * @param RequireFuelInterface $vehicle
-     *
-     * @return RequireFuelInterface
-     */
-    public function testRefuelWithAcceptedFuelType(RequireFuelInterface $vehicle)
-    {
-        $this->assertEquals(
-            'refueled',
-            $vehicle->getFuelTank()->refuel($vehicle->getFuelTank()->getAcceptedFuelType())
-        );
-
-        $this->assertEquals(
-            true,
-            $vehicle->getFuelTank()->hasFuel()
-        );
-
-        return $vehicle;
-    }
-
-    /**
-     * @depends testRefuelWithAcceptedFuelType
      *
      * @param SpaceShuttleVehicle $vehicle
      *
@@ -104,7 +58,7 @@ class SpaceShuttleVehicleTest extends TestCase
     }
 
     /**
-     * @depends testRefuelWithAcceptedFuelType
+     * @depends testInstantiation
      *
      * @param SpaceShuttleVehicle $vehicle
      */
@@ -115,7 +69,19 @@ class SpaceShuttleVehicleTest extends TestCase
     }
 
     /**
-     * @depends testRefuelWithAcceptedFuelType
+     * @depends testInstantiation
+     *
+     * @param SpaceShuttleVehicle $vehicle
+     */
+    public function testTakeOffWithEmptyTank(SpaceShuttleVehicle $vehicle)
+    {
+        $this->createMock(FuelTank::class)->method('hasFuel')->willReturn(false);
+        $this->expectException(NoFuelException::class);
+        $vehicle->takeOff();
+    }
+
+    /**
+     * @depends testInstantiation
      *
      * @param SpaceShuttleVehicle $vehicle
      *
@@ -123,6 +89,7 @@ class SpaceShuttleVehicleTest extends TestCase
      */
     public function testTakeOff(SpaceShuttleVehicle $vehicle)
     {
+        $vehicle->getFuelTank()->refuel($vehicle->getFuelTank()->getAcceptedFuelType());
         $this->assertEquals(
             'Take-off action successful',
             $vehicle->takeOff()
@@ -185,17 +152,6 @@ class SpaceShuttleVehicleTest extends TestCase
         );
 
         return $vehicle;
-    }
-
-    /**
-     * @depends testInstantiation
-     *
-     * @param SpaceShuttleVehicle $vehicle
-     */
-    public function testTakeOffWithEmptyTank(SpaceShuttleVehicle $vehicle)
-    {
-        $this->expectException(NoFuelException::class);
-        $vehicle->takeOff();
     }
 
     /**

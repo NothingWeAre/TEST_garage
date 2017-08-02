@@ -1,6 +1,5 @@
 <?php
 use Exceptions\AlreadyMovingException;
-use Exceptions\IncorrectFuelTypeException;
 use Exceptions\NoFuelException;
 use Exceptions\NotMovingException;
 use PHPUnit\Framework\TestCase;
@@ -26,53 +25,6 @@ class CarVehicleTest extends TestCase
     /**
      * @depends testInstantiation
      *
-     * @param RequireFuelInterface $vehicle
-     */
-    public function testIfHasFuelEmpty(RequireFuelInterface $vehicle)
-    {
-        $this->assertEquals(
-            false,
-            $vehicle->getFuelTank()->hasFuel()
-        );
-    }
-
-    /**
-     * @depends testInstantiation
-     *
-     * @param RequireFuelInterface $vehicle
-     */
-    public function testRefuelWithIncorrectFuel(RequireFuelInterface $vehicle)
-    {
-        $this->expectException(IncorrectFuelTypeException::class);
-        $vehicle->getFuelTank()->refuel('not fuel');
-    }
-
-
-    /**
-     * @depends testInstantiation
-     *
-     * @param RequireFuelInterface $vehicle
-     *
-     * @return RequireFuelInterface
-     */
-    public function testRefuelWithAcceptedFuelType(RequireFuelInterface $vehicle)
-    {
-        $this->assertEquals(
-            'refueled',
-            $vehicle->getFuelTank()->refuel($vehicle->getFuelTank()->getAcceptedFuelType())
-        );
-
-        $this->assertEquals(
-            true,
-            $vehicle->getFuelTank()->hasFuel()
-        );
-
-        return $vehicle;
-    }
-
-    /**
-     * @depends testRefuelWithAcceptedFuelType
-     *
      * @param CarVehicle $vehicle
      *
      * @return CarVehicle
@@ -86,7 +38,7 @@ class CarVehicleTest extends TestCase
     }
 
     /**
-     * @depends testRefuelWithAcceptedFuelType
+     * @depends testInstantiation
      *
      * @param CarVehicle $vehicle
      *
@@ -94,6 +46,7 @@ class CarVehicleTest extends TestCase
      */
     public function testDrive(CarVehicle $vehicle)
     {
+        $vehicle->getFuelTank()->refuel($vehicle->getFuelTank()->getAcceptedFuelType());
         $this->assertEquals(
             'Drive action successful',
             $vehicle->drive()
@@ -103,7 +56,7 @@ class CarVehicleTest extends TestCase
     }
 
     /**
-     * @depends testRefuelWithAcceptedFuelType
+     * @depends testInstantiation
      *
      * @param CarVehicle $vehicle
      *

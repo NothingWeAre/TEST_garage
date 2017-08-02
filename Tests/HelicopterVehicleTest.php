@@ -26,31 +26,6 @@ class HelicopterVehicleTest extends TestCase
      * @depends testInstantiation
      *
      * @param RequireFuelInterface $vehicle
-     */
-    public function testIfHasFuelEmpty(RequireFuelInterface $vehicle)
-    {
-        $this->assertEquals(
-            false,
-            $vehicle->getFuelTank()->hasFuel()
-        );
-    }
-
-    /**
-     * @depends testInstantiation
-     *
-     * @param RequireFuelInterface $vehicle
-     */
-    public function testRefuelWithIncorrectFuel(RequireFuelInterface $vehicle)
-    {
-        $this->expectException(IncorrectFuelTypeException::class);
-        $vehicle->getFuelTank()->refuel('not fuel');
-    }
-
-
-    /**
-     * @depends testInstantiation
-     *
-     * @param RequireFuelInterface $vehicle
      *
      * @return RequireFuelInterface
      */
@@ -100,6 +75,7 @@ class HelicopterVehicleTest extends TestCase
      */
     public function testTakeOff(HelicopterVehicle $vehicle)
     {
+        $vehicle->getFuelTank()->refuel($vehicle->getFuelTank()->getAcceptedFuelType());
         $this->assertEquals(
             'Take-off action successful',
             $vehicle->takeOff()
