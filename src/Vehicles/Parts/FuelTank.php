@@ -14,7 +14,7 @@ use Exceptions\NoFuelException;
 
 class FuelTank
 {
-    private $hasFuel;
+    private $hasFuel = false;
     private $fuelType;
 
     public function __construct(string $fuelType)

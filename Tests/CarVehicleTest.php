@@ -6,6 +6,7 @@ use Exceptions\NotMovingException;
 use PHPUnit\Framework\TestCase;
 use Vehicles\AbstractVehicle;
 use Vehicles\CarVehicle;
+use Vehicles\VehicleTypeInterface\RequireFuelInterface;
 use Vehicles\VehicleTypeInterface\TerrainInterface;
 
 class CarVehicleTest extends TestCase
@@ -18,15 +19,16 @@ class CarVehicleTest extends TestCase
 
         $this->assertInstanceOf(AbstractVehicle::class, $vehicle, 'Must extend AbstractVehicle');
         $this->assertInstanceOf(TerrainInterface::class, $vehicle, 'Must implement TerrainInterface');
+        $this->assertInstanceOf(RequireFuelInterface::class, $vehicle, 'Must implement RequireFuelInterface');
         return $vehicle;
     }
 
     /**
      * @depends testInstantiation
      *
-     * @param AbstractVehicle $vehicle
+     * @param RequireFuelInterface $vehicle
      */
-    public function testIfHasFuelEmpty(AbstractVehicle $vehicle)
+    public function testIfHasFuelEmpty(RequireFuelInterface $vehicle)
     {
         $this->assertEquals(
             false,
@@ -37,27 +39,27 @@ class CarVehicleTest extends TestCase
     /**
      * @depends testInstantiation
      *
-     * @param AbstractVehicle $vehicle
+     * @param RequireFuelInterface $vehicle
      */
-    public function testRefuelWithIncorrectFuel(AbstractVehicle $vehicle)
+    public function testRefuelWithIncorrectFuel(RequireFuelInterface $vehicle)
     {
         $this->expectException(IncorrectFuelTypeException::class);
-        $vehicle->refuel('not fuel');
+        $vehicle->getFuelTank()->refuel('not fuel');
     }
 
 
     /**
      * @depends testInstantiation
      *
-     * @param AbstractVehicle $vehicle
+     * @param RequireFuelInterface $vehicle
      *
-     * @return AbstractVehicle
+     * @return RequireFuelInterface
      */
-    public function testRefuelWithAcceptedFuelType(AbstractVehicle $vehicle)
+    public function testRefuelWithAcceptedFuelType(RequireFuelInterface $vehicle)
     {
         $this->assertEquals(
             'refueled',
-            $vehicle->refuel($vehicle->getAcceptedFuelType())
+            $vehicle->getFuelTank()->refuel($vehicle->getFuelTank()->getAcceptedFuelType())
         );
 
         $this->assertEquals(

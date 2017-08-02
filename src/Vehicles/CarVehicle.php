@@ -19,10 +19,6 @@ class CarVehicle extends AbstractVehicle implements TerrainInterface, RequireFue
     const FUEL_TYPE = 'gasoline';
 
     private $inMove = false;
-    /**
-     * @var FuelTank
-     */
-    private $fuelTank;
 
     public function __construct($name)
     {
