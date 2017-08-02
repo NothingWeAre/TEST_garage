@@ -3,3 +3,6 @@
 
 ## Installation
 `composer install`
+
+## Run
+`php app.php`
