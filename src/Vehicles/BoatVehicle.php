@@ -2,7 +2,9 @@
 
 namespace Vehicles;
 
+use Exceptions\AlreadyMovingException;
 use Exceptions\NoFuelException;
+use Exceptions\NotMovingException;
 use Vehicles\VehicleTypeInterface\AquaticInterface;
 
 class BoatVehicle extends AbstractVehicle implements AquaticInterface
@@ -23,6 +25,10 @@ class BoatVehicle extends AbstractVehicle implements AquaticInterface
 
     function swim(): string
     {
+        if($this->inMove){
+            throw new AlreadyMovingException();
+        }
+
         if(!$this->hasFuel()){
             throw new NoFuelException();
         }
@@ -35,6 +41,10 @@ class BoatVehicle extends AbstractVehicle implements AquaticInterface
 
     function stop(): string
     {
+        if(!$this->inMove){
+            throw new NotMovingException();
+        }
+
         $this->inMove = false;
 
         return 'Stop action successful';

@@ -2,7 +2,9 @@
 
 namespace Vehicles;
 
+use Exceptions\AlreadyMovingException;
 use Exceptions\NoFuelException;
+use Exceptions\NotMovingException;
 use Vehicles\VehicleTypeInterface\TerrainInterface;
 
 class CarVehicle extends AbstractVehicle implements TerrainInterface
@@ -23,6 +25,10 @@ class CarVehicle extends AbstractVehicle implements TerrainInterface
 
     public function drive(): string
     {
+        if($this->inMove){
+            throw new AlreadyMovingException();
+        }
+
         if(!$this->hasFuel()){
             throw new NoFuelException();
         }
@@ -35,8 +41,17 @@ class CarVehicle extends AbstractVehicle implements TerrainInterface
 
     function stop(): string
     {
+        if(!$this->inMove){
+            throw new NotMovingException();
+        }
+
         $this->inMove = false;
 
         return 'Stop action successful';
+    }
+
+    function musicOn(): string
+    {
+        return 'You are listening to music';
     }
 }

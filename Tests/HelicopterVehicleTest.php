@@ -22,51 +22,59 @@ class HelicopterVehicleTest extends TestCase
     /**
      * @depends testInstantiation
      *
-     * @param HelicopterVehicle $vehicle
+     * @param AbstractVehicle $vehicle
      */
-    public function testRefuelWithIncorrectFuel(HelicopterVehicle $vehicle)
+    public function testIfHasFuelEmpty(AbstractVehicle $vehicle)
+    {
+        $this->assertEquals(
+            false,
+            $vehicle->hasFuel()
+        );
+    }
+
+    /**
+     * @depends testInstantiation
+     *
+     * @param AbstractVehicle $vehicle
+     */
+    public function testRefuelWithIncorrectFuel(AbstractVehicle $vehicle)
     {
         $this->expectException(IncorrectFuelTypeException::class);
         $vehicle->refuel('not fuel');
     }
 
-    /**
-     * @depends testInstantiation
-     *
-     * @param HelicopterVehicle $vehicle
-     */
-    public function testTakeOffWithEmptyTank(HelicopterVehicle $vehicle)
-    {
-        $this->expectException(NoFuelException::class);
-        $vehicle->takeOff();
-    }
 
     /**
      * @depends testInstantiation
      *
-     * @param HelicopterVehicle $vehicle
-     */
-    public function testFlyWithEmptyTank(HelicopterVehicle $vehicle)
-    {
-        $this->expectException(NoFuelException::class);
-        $vehicle->fly();
-    }
-
-    /**
-     * @depends testInstantiation
+     * @param AbstractVehicle $vehicle
      *
-     * @param HelicopterVehicle $vehicle
-     *
-     * @return HelicopterVehicle
+     * @return AbstractVehicle
      */
-    public function testRefuelWithAcceptedFuelType(HelicopterVehicle $vehicle)
+    public function testRefuelWithAcceptedFuelType(AbstractVehicle $vehicle)
     {
         $this->assertEquals(
             'refueled',
             $vehicle->refuel($vehicle->getAcceptedFuelType())
         );
 
+        $this->assertEquals(
+            true,
+            $vehicle->hasFuel()
+        );
+
         return $vehicle;
+    }
+
+    /**
+     * @depends testInstantiation
+     *
+     * @param HelicopterVehicle $vehicle
+     */
+    public function testLandingOnLand(HelicopterVehicle $vehicle)
+    {
+        $this->expectException(NotInFlightException::class);
+        $vehicle->land();
     }
 
     /**
@@ -131,6 +139,45 @@ class HelicopterVehicleTest extends TestCase
      * @param HelicopterVehicle $vehicle
      */
     public function testFuelExpenditure(HelicopterVehicle $vehicle)
+    {
+        $this->expectException(NoFuelException::class);
+        $vehicle->fly();
+    }
+
+    /**
+     * @depends testFly
+     *
+     * @param HelicopterVehicle $vehicle
+     *
+     * @return HelicopterVehicle
+     */
+    public function testLanding(HelicopterVehicle $vehicle)
+    {
+        $this->assertEquals(
+            'Land action successful',
+            $vehicle->land()
+        );
+
+        return $vehicle;
+    }
+
+    /**
+     * @depends testInstantiation
+     *
+     * @param HelicopterVehicle $vehicle
+     */
+    public function testTakeOffWithEmptyTank(HelicopterVehicle $vehicle)
+    {
+        $this->expectException(NoFuelException::class);
+        $vehicle->takeOff();
+    }
+
+    /**
+     * @depends testInstantiation
+     *
+     * @param HelicopterVehicle $vehicle
+     */
+    public function testFlyWithEmptyTank(HelicopterVehicle $vehicle)
     {
         $this->expectException(NoFuelException::class);
         $vehicle->fly();
