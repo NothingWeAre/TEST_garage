@@ -1,5 +1,6 @@
 <?php
 
+use Exceptions\AlreadyInFlightException;
 use Exceptions\IncorrectFuelTypeException;
 use Exceptions\NoFuelException;
 use Exceptions\NotInFlightException;
@@ -94,5 +95,44 @@ class HelicopterVehicleTest extends TestCase
         );
 
         return $vehicle;
+    }
+
+    /**
+     * @depends testTakeOff
+     *
+     * @param HelicopterVehicle $vehicle
+     */
+    public function testTakeOffInFlight(HelicopterVehicle $vehicle)
+    {
+        $this->expectException(AlreadyInFlightException::class);
+        $vehicle->takeOff();
+    }
+
+    /**
+     * @depends testTakeOff
+     *
+     * @param HelicopterVehicle $vehicle
+     *
+     * @return HelicopterVehicle
+     */
+    public function testFly(HelicopterVehicle $vehicle)
+    {
+        $this->assertEquals(
+            'Fly action successful',
+            $vehicle->fly()
+        );
+
+        return $vehicle;
+    }
+
+    /**
+     * @depends testFly
+     *
+     * @param HelicopterVehicle $vehicle
+     */
+    public function testFuelExpenditure(HelicopterVehicle $vehicle)
+    {
+        $this->expectException(NoFuelException::class);
+        $vehicle->fly();
     }
 }
