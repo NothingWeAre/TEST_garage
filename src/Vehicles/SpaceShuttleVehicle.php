@@ -1,20 +1,30 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Gideon
+ * Date: 02.08.2017
+ * Time: 20:37
+ */
 
 namespace Vehicles;
+
 
 use Exceptions\AlreadyInFlightException;
 use Exceptions\NoFuelException;
 use Exceptions\NotInFlightException;
 use Vehicles\FunctionTraits\FuelTankTrait;
+use Vehicles\FunctionTraits\MusicTrait;
 use Vehicles\Parts\FuelTank;
 use Vehicles\VehicleTypeInterface\AerialInterface;
+use Vehicles\VehicleTypeInterface\HasEntertainmentInterface;
 use Vehicles\VehicleTypeInterface\RequireFuelInterface;
 
-class HelicopterVehicle extends AbstractVehicle implements AerialInterface, RequireFuelInterface
+class SpaceShuttleVehicle extends AbstractVehicle implements AerialInterface, RequireFuelInterface, HasEntertainmentInterface
 {
+    use MusicTrait;
     use FuelTankTrait;
 
-    const FUEL_TYPE = 'AvGas';
+    const FUEL_TYPE = 'Rocket fuel';
 
     private $inFlight = false;
 

@@ -10,6 +10,4 @@ class TruckVehicle extends CarVehicle
     {
         return 'Cargo unload action successful';
     }
-
-
 }

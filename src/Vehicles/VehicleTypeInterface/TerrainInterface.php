@@ -8,6 +8,4 @@ interface TerrainInterface
     function drive(): string;
 
     function stop(): string;
-
-    function musicOn(): string;
 }

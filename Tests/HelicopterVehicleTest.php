@@ -28,7 +28,7 @@ class HelicopterVehicleTest extends TestCase
     {
         $this->assertEquals(
             false,
-            $vehicle->hasFuel()
+            $vehicle->getFuelTank()->hasFuel()
         );
     }
 
@@ -60,7 +60,7 @@ class HelicopterVehicleTest extends TestCase
 
         $this->assertEquals(
             true,
-            $vehicle->hasFuel()
+            $vehicle->getFuelTank()->hasFuel()
         );
 
         return $vehicle;

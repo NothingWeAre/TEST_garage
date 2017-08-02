@@ -3,24 +3,24 @@
 namespace Vehicles;
 
 use Exceptions\AlreadyMovingException;
-use Exceptions\NoFuelException;
 use Exceptions\NotMovingException;
+use Vehicles\FunctionTraits\FuelTankTrait;
+use Vehicles\Parts\FuelTank;
 use Vehicles\VehicleTypeInterface\AquaticInterface;
+use Vehicles\VehicleTypeInterface\RequireFuelInterface;
 
-class BoatVehicle extends AbstractVehicle implements AquaticInterface
+class BoatVehicle extends AbstractVehicle implements AquaticInterface, RequireFuelInterface
 {
+    use FuelTankTrait;
+
     const FUEL_TYPE = 'diesel';
 
     private $inMove = false;
 
-    protected function checkFuel(string $fuel): bool
+    public function __construct($name)
     {
-        return $fuel === self::FUEL_TYPE;
-    }
-
-    public function getAcceptedFuelType(): string
-    {
-        return self::FUEL_TYPE;
+        $this->setFuelTank(new FuelTank(self::FUEL_TYPE));
+        parent::__construct($name);
     }
 
     function swim(): string
@@ -29,12 +29,8 @@ class BoatVehicle extends AbstractVehicle implements AquaticInterface
             throw new AlreadyMovingException();
         }
 
-        if(!$this->hasFuel()){
-            throw new NoFuelException();
-        }
-
+        $this->getFuelTank()->useFuel();
         $this->inMove = true;
-        $this->useFuel();
 
         return 'Swim action successful';
     }

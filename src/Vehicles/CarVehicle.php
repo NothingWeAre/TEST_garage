@@ -3,24 +3,31 @@
 namespace Vehicles;
 
 use Exceptions\AlreadyMovingException;
-use Exceptions\NoFuelException;
 use Exceptions\NotMovingException;
+use Vehicles\FunctionTraits\FuelTankTrait;
+use Vehicles\FunctionTraits\MusicTrait;
+use Vehicles\Parts\FuelTank;
+use Vehicles\VehicleTypeInterface\HasEntertainmentInterface;
+use Vehicles\VehicleTypeInterface\RequireFuelInterface;
 use Vehicles\VehicleTypeInterface\TerrainInterface;
 
-class CarVehicle extends AbstractVehicle implements TerrainInterface
+class CarVehicle extends AbstractVehicle implements TerrainInterface, RequireFuelInterface, HasEntertainmentInterface
 {
+    use MusicTrait;
+    use FuelTankTrait;
+
     const FUEL_TYPE = 'gasoline';
 
     private $inMove = false;
+    /**
+     * @var FuelTank
+     */
+    private $fuelTank;
 
-    protected function checkFuel(string $fuel): bool
+    public function __construct($name)
     {
-        return $fuel === self::FUEL_TYPE;
-    }
-
-    public function getAcceptedFuelType(): string
-    {
-        return self::FUEL_TYPE;
+        $this->setFuelTank(new FuelTank(self::FUEL_TYPE));
+        parent::__construct($name);
     }
 
     public function drive(): string
@@ -29,12 +36,8 @@ class CarVehicle extends AbstractVehicle implements TerrainInterface
             throw new AlreadyMovingException();
         }
 
-        if(!$this->hasFuel()){
-            throw new NoFuelException();
-        }
-
+        $this->getFuelTank()->useFuel();
         $this->inMove = true;
-        $this->useFuel();
 
         return 'Drive action successful';
     }
@@ -50,8 +53,8 @@ class CarVehicle extends AbstractVehicle implements TerrainInterface
         return 'Stop action successful';
     }
 
-    function musicOn(): string
+    function getFuelTank(): FuelTank
     {
-        return 'You are listening to music';
+        return $this->fuelTank;
     }
 }
