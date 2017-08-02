@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Gideon
- * Date: 01.08.2017
- * Time: 20:58
- */
 
 namespace Exceptions;
-
 
 class NoFuelException extends \Exception
 {
