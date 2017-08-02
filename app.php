@@ -1,5 +1,5 @@
 <?php
-include "lib/loader.php";
+include "vendor/autoload.php";
 
 use Vehicles\BoatVehicle;
 use Vehicles\CarVehicle;

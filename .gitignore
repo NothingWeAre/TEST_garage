@@ -1,2 +1,8 @@
 #IDE
 .idea
+
+#vendors
+/vendor
+
+#utils
+/*.phar
