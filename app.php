@@ -6,6 +6,7 @@ use Vehicles\CarVehicle;
 use Vehicles\HelicopterVehicle;
 use Vehicles\TruckVehicle;
 use Vehicles\VehicleTypeInterface\AerialInterface;
+use Vehicles\VehicleTypeInterface\AquaticInterface;
 use Vehicles\VehicleTypeInterface\TerrainInterface;
 
 $garage = new Garage();
@@ -19,17 +20,34 @@ $garage
 ;
 
 //try riding each vehicle
+$i = 1;
 foreach($garage->getVehicles() as $vehicle){
+
+    echo sprintf("Vehicle #%d: %s \n", $i, $vehicle->getName());
+
     if(!$vehicle->hasFuel()){
-        $vehicle->refuel($vehicle->getAcceptedFuelType());
+        echo $vehicle->refuel($vehicle->getAcceptedFuelType())."\n";
     }
 
     if($vehicle instanceof AerialInterface){
-        $vehicle->takeOff();
-        $vehicle->fly();
-        $vehicle->land();
+        echo $vehicle->takeOff()."\n";
+        echo $vehicle->fly()."\n";
+        echo $vehicle->land()."\n";
     }
     if($vehicle instanceof TerrainInterface){
-        $vehicle->drive();
+        echo $vehicle->drive()."\n";
+        echo $vehicle->musicOn()."\n";
+        echo $vehicle->stop()."\n";
+        if($vehicle instanceof TruckVehicle){
+            echo $vehicle->unload()."\n";
+        }
     }
+
+    if($vehicle instanceof AquaticInterface){
+        echo $vehicle->swim()."\n";
+        echo $vehicle->stop()."\n";
+    }
+
+    echo "---Trying vehicle complete--- \n\n\n";
+    $i++;
 }
