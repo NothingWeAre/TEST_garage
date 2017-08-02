@@ -48,6 +48,8 @@ class HelicopterVehicle extends AbstractVehicle implements AerialInterface
             throw new AlreadyInFlightException();
         }
 
+        $this->inFlight = true;
+
         return 'Take-off action successful';
     }
 
